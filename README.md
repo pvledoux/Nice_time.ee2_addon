@@ -1,7 +1,7 @@
 #Pvl Nice_time v.0.2
 
-This plugin convert a date in relative time.
-It will output **'now'** if the date given is less then 5 seconds ago, **'xx unit ago'** will be outputed for longuer intervals (where unit will be seconds, minutes, hours, days or weeks). If the date is greater than 4 weeks, it will return the full date formatted with the parameter _format_.
+This plugin converts a date in relative time.
+It will output **'now'** if the date given is less then 5 seconds ago, **'xx unit ago'** will be outputted for longer intervals (where unit will be seconds, minutes, hours, days or weeks). If the date is greater than 4 weeks, it will return the full date formatted with the parameter _format_.
 
 ##Syntax
 
@@ -19,6 +19,14 @@ It will output **'now'** if the date given is less then 5 seconds ago, **'xx uni
 	<td>optional (default: %d-%m-%Y %H:%i)</td>
 </tr>
 </table>
+
+##Future improvements
+
+* Allow to translate the output
+* Add parameters for the delay between the 'now', the 'xx unit ago' ouput and the normal date output
+* Allow the use of tag pairs or single tag
+
+Any improvement or remarks are welcome.
 
 
 
