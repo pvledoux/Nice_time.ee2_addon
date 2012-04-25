@@ -7,6 +7,17 @@ It will output **'now'** if the date given is less then 5 seconds ago, **'xx uni
 
     {exp:nice_time date="{entry_date}" format="%d-%m-%Y %H:%i"}
 
+It will output that kind of result:
+
+    now
+    30 seconds ago
+    5 minutes ago
+    2 days ago
+    3 weeks ago
+    11-12-2012 11:24
+
+depending of the interval.
+
 ##Parameter
 
 <table>
@@ -22,9 +33,9 @@ It will output **'now'** if the date given is less then 5 seconds ago, **'xx uni
 
 ##Future improvements
 
-* Allow to translate the output
 * Add parameters for the delay between the 'now', the 'xx unit ago' ouput and the normal date output
-* Allow the use of tag pairs or single tag
+* Allow the use of tag pairs or single tag (to ease translation)
+* Add parameter to set on which time the plugin must based the ouput (GMT, server time, etc)
 
 Any improvement or remarks are welcome.
 
