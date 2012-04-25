@@ -147,16 +147,20 @@ class Nice_time
 	?>
 
 
-			Pvl Nice_time v. 0.2
+	This plugin converts a date in relative time.
+	It will output **'now'** if the date given is less then 5 seconds ago, **'xx unit ago'** will be outputted for longer intervals (where unit will be seconds, minutes, hours, days or weeks).
+	If the date is greater than 4 weeks, it will return the full date formatted with the parameter _format_.
 
-			This plugin convert a date in relative time.
+	Syntax
+	------------------------------------------------------------------
 
-			<p>{exp:nice_time date="{entry_date}" format="%d-%m-%Y %H:%i"}</p>
+	    {exp:nice_time date="{entry_date}" format="%d-%m-%Y %H:%i"}
 
-			Parameter:
+	Parameter
+	------------------------------------------------------------------
 
-			date		is required (English format)
-			format		optional (default: %d-%m-%Y %H:%i)
+		date 	is required. Can be a string date or a unix timestamp.
+		format 	optional (default: %d-%m-%Y %H:%i)
 
 
 	 <?php
