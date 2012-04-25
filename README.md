@@ -1,6 +1,7 @@
 #Pvl Nice_time v.0.2
 
 This plugin convert a date in relative time.
+It will output **'now'** if the date given is less then 5 seconds ago, **'xx unit ago'** will be outputed for longuer intervals (where unit will be seconds, minutes, hours, days or weeks). If the date is greater than 4 weeks, it will return the full date formatted with the parameter _format_.
 
 ##Syntax
 
@@ -11,13 +12,14 @@ This plugin convert a date in relative time.
 <table>
 <tr>
 	<td><b>date</b></td>
-	<td>is required (English format)</td>
+	<td>is required. Can be a string date or a unix timestamp.</td>
 </tr>
 <tr>
 	<td><b>format</b></td>
 	<td>optional (default: %d-%m-%Y %H:%i)</td>
 </tr>
 </table>
+
 
 
 ##Licence
