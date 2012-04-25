@@ -2,12 +2,12 @@
 
 $plugin_info = array(
 	'pi_name' => 'Nice Time',
-	'pi_version' => '0.1',
+	'pi_version' => '0.2',
 	'pi_author' =>'Pierre-Vincent Ledoux',
 	'pi_author_email' =>'ee-addons@pvledoux.be',
 	'pi_author_url' => 'http://twitter.com/pvledoux/',
 	'pi_author_url' => 'http://www.twitter.com/pvledoux',
-	'pi_description' => 'Display a date a a relative time format',
+	'pi_description' => 'Display a date in relative time format',
 	'pi_usage' => Nice_time::usage()
   );
 
@@ -96,24 +96,42 @@ class Nice_time
 	}
 
 	private function _run() {
+		if (! $this->_is_timestamp($this->_date))
+			$this->_date = strtotime($this->_date);
+
 		$diff = time() - $this->_date;
+
 		if ($diff >= 0 && $diff < 5)
 			return "now";
+
 		if ($diff<60)
 			return $diff . " second" . $this->_plural($diff) . " ago";
+
 		$diff = round($diff/60);
+
 		if ($diff<60)
 			return $diff . " minute" . $this->_plural($diff) . " ago";
+
 		$diff = round($diff/60);
+
 		if ($diff<24)
 			return $diff . " hour" . $this->_plural($diff) . " ago";
+
 		$diff = round($diff/24);
+
 		if ($diff<7)
 			return $diff . " day" . $this->_plural($diff) . " ago";
+
 		$diff = round($diff/7);
+
 		if ($diff<4)
 			return $diff . " week" . $this->_plural($diff) . " ago";
+
 		return "on " . $this->_ee->localize->decode_date($this->_format, $this->_date);
+	}
+
+	private function _is_timestamp( $string ) {
+		return ( 1 === preg_match( '~^[1-9][0-9]*$~', $string ) );
 	}
 
 
@@ -129,7 +147,7 @@ class Nice_time
 	?>
 
 
-			Pvl Nice_time v. 0.1
+			Pvl Nice_time v. 0.2
 
 			This plugin convert a date in relative time.
 
