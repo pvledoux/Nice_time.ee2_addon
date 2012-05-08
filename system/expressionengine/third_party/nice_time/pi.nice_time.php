@@ -44,6 +44,7 @@ $plugin_info = array(
  * @copyright	Pv Ledoux 2011
  * @since		20 Dec 2011
  * @author		Pierre-Vincent Ledoux <ee-addons@pvledoux.be>
+ * @author		EpicVoyage <chris@epicvoyage.org>
  * @link		http://www.twitter.com/pvledoux/
  *
  */
@@ -60,6 +61,7 @@ class Nice_time
 	private $_ee		= NULL;
 	private $_date		= NULL;
 	private $_format	= NULL;
+	private $_relative	= NULL;
 
 	/**
 	* Constructor.
@@ -72,6 +74,7 @@ class Nice_time
 		$this->_ee =& get_instance();
 		$this->_date = $this->_ee->TMPL->fetch_param('date', time());
 		$this->_format = $this->_ee->TMPL->fetch_param('format', '%d-%m-%Y %H:%i');
+		$this->_relative = $this->_ee->TMPL->fetch_param('relative', 'yes');
 
 		$this->return_data = $this->_run();
 	}
@@ -101,33 +104,40 @@ class Nice_time
 
 		$diff = time() - $this->_date;
 
-		if ($diff >= 0 && $diff < 5)
-			return "now";
+		if ($this->_relative !== 'no') {
+			if ($diff >= 0 && $diff < 5)
+				return "now";
 
-		if ($diff<60)
-			return $diff . " second" . $this->_plural($diff) . " ago";
+			$frame = ($diff < 0) ? ' from now' : ' ago';
+			$diff *= ($diff < 0) ? -1 : 1;
 
-		$diff = round($diff/60);
+			if ($diff<60)
+				return $diff . " second" . $this->_plural($diff) . $frame;
 
-		if ($diff<60)
-			return $diff . " minute" . $this->_plural($diff) . " ago";
+			$diff = round($diff/60);
 
-		$diff = round($diff/60);
+			if ($diff<60)
+				return $diff . " minute" . $this->_plural($diff) . $frame;
 
-		if ($diff<24)
-			return $diff . " hour" . $this->_plural($diff) . " ago";
+			$diff = round($diff/60);
 
-		$diff = round($diff/24);
+			if ($diff<24)
+				return $diff . " hour" . $this->_plural($diff) . $frame;
 
-		if ($diff<7)
-			return $diff . " day" . $this->_plural($diff) . " ago";
+			$diff = round($diff/24);
 
-		$diff = round($diff/7);
+			if ($diff<7)
+				return $diff . " day" . $this->_plural($diff) . $frame;
 
-		if ($diff<4)
-			return $diff . " week" . $this->_plural($diff) . " ago";
+			$diff = round($diff/7);
 
-		return "on " . $this->_ee->localize->decode_date($this->_format, $this->_date);
+			if ($diff<4)
+				return $diff . " week" . $this->_plural($diff) . $frame;
+
+			return "on " . $this->_ee->localize->decode_date($this->_format, $this->_date);
+		}
+
+		return $this->_ee->localize->decode_date($this->_format, $this->_date);
 	}
 
 	private function _is_timestamp( $string ) {
@@ -155,12 +165,14 @@ class Nice_time
 	------------------------------------------------------------------
 
 	    {exp:nice_time date="{entry_date}" format="%d-%m-%Y %H:%i"}
+	    {exp:nice_time date="2012-09-{segment_3}" format="%D, %M %j, %Y" relative="no"}
 
 	Parameter
 	------------------------------------------------------------------
 
-		date 	is required. Can be a string date or a unix timestamp.
-		format 	optional (default: %d-%m-%Y %H:%i)
+		date 	  is required. Can be a string date or a unix timestamp.
+		format 	  optional. (default: %d-%m-%Y %H:%i)
+		relative  optional. Set to "no" to always use format.
 
 
 	 <?php
