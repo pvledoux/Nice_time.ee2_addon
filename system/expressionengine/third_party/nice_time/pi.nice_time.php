@@ -44,7 +44,7 @@ $plugin_info = array(
  * @copyright	Pv Ledoux 2011
  * @since		20 Dec 2011
  * @author		Pierre-Vincent Ledoux <ee-addons@pvledoux.be>
- * @author		EpicVoyage <chris@epicvoyage.org>
+ * @author		EpicVoyage <nospam@epicvoyage.org>
  * @link		http://www.twitter.com/pvledoux/
  *
  */
