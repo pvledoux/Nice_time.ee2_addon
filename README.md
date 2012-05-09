@@ -6,6 +6,7 @@ It will output **'now'** if the date given is less then 5 seconds ago, **'xx uni
 ##Syntax
 
     {exp:nice_time date="{entry_date}" format="%d-%m-%Y %H:%i"}
+    {exp:nice_time date="2012-09-{segment_3}" format="%D, %M %j, %Y" relative="no"}
 
 It will output that kind of result:
 
@@ -14,6 +15,10 @@ It will output that kind of result:
     5 minutes ago
     2 days ago
     3 weeks ago
+    30 seconds from now
+    5 minutes from now
+    2 days from now
+    3 weeks from now
     11-12-2012 11:24
 
 depending of the interval.
@@ -27,7 +32,11 @@ depending of the interval.
 </tr>
 <tr>
 	<td><b>format</b></td>
-	<td>optional (default: %d-%m-%Y %H:%i)</td>
+	<td>optional. (default: %d-%m-%Y %H:%i)</td>
+</tr>
+<tr>
+	<td><b>relative</b></td>
+	<td>optional. Set to "no" to always use format.</td>
 </tr>
 </table>
 
