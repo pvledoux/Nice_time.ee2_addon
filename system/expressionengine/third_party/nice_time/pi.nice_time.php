@@ -166,6 +166,7 @@ class Nice_time
 
 	    {exp:nice_time date="{entry_date}" format="%d-%m-%Y %H:%i"}
 	    {exp:nice_time date="2012-09-{segment_3}" format="%D, %M %j, %Y" relative="no"}
+	    {exp:nice_time date="+3 days" format="<strong>%l</strong> %m/%d/%Y" relative="no"}
 
 	Parameter
 	------------------------------------------------------------------
@@ -173,6 +174,9 @@ class Nice_time
 		date 	  is required. Can be a string date or a unix timestamp.
 		format 	  optional. (default: %d-%m-%Y %H:%i)
 		relative  optional. Set to "no" to always use format.
+		
+		For more information on the format parameter, see the EE documentation:
+			http://expressionengine.com/user_guide/templates/date_variable_formatting.html
 
 
 	 <?php
