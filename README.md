@@ -1,14 +1,15 @@
 #Pvl Nice_time v.0.2
 
-This plugin converts a date in relative time.
-It will output **'now'** if the date given is less then 5 seconds ago, **'xx unit ago'** will be outputted for longer intervals (where unit will be seconds, minutes, hours, days or weeks). If the date is greater than 4 weeks, it will return the full date formatted with the parameter _format_.
+This plugin converts a date to relative time.
+It will output **'now'** if the date given is less then 5 seconds ago, **'xx unit ago'** will be output for longer intervals (where unit will be seconds, minutes, hours, days or weeks). If the date is greater than 4 weeks, it will return the full date formatted with the parameter _format_.
 
 ##Syntax
 
     {exp:nice_time date="{entry_date}" format="%d-%m-%Y %H:%i"}
     {exp:nice_time date="2012-09-{segment_3}" format="%D, %M %j, %Y" relative="no"}
+    {exp:nice_time date="+3 days" format="<strong>%l</strong> %m/%d/%Y" relative="no"}
 
-It will output that kind of result:
+It will output these kinds of results:
 
     now
     30 seconds ago
@@ -20,8 +21,9 @@ It will output that kind of result:
     2 days from now
     3 weeks from now
     11-12-2012 11:24
+    Monday, September 6, 2012
 
-depending of the interval.
+depending on the interval.
 
 ##Parameter
 
@@ -32,7 +34,7 @@ depending of the interval.
 </tr>
 <tr>
 	<td><b>format</b></td>
-	<td>optional. (default: %d-%m-%Y %H:%i)</td>
+	<td>optional. See http://expressionengine.com/user_guide/templates/date_variable_formatting.html (default: %d-%m-%Y %H:%i)</td>
 </tr>
 <tr>
 	<td><b>relative</b></td>
