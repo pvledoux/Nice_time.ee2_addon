@@ -71,10 +71,12 @@ class Nice_time
 	*/
 	public function __construct()
 	{
-		$this->_ee =& get_instance();
-		$this->_date = $this->_ee->TMPL->fetch_param('date', time());
-		$this->_format = $this->_ee->TMPL->fetch_param('format', '%d-%m-%Y %H:%i');
-		$this->_relative = $this->_ee->TMPL->fetch_param('relative', 'yes');
+		$this->_ee			=& get_instance();
+
+		$this->_date		= $this->_ee->TMPL->fetch_param('date', time());
+		$this->_format		= $this->_ee->TMPL->fetch_param('format', '%d-%m-%Y %H:%i');
+		$this->_relative	= $this->_ee->TMPL->fetch_param('relative', 'yes');
+		$this->_prefix		= $this->_ee->TMPL->fetch_param('prefix', 'on ');
 
 		$this->return_data = $this->_run();
 	}
@@ -134,7 +136,7 @@ class Nice_time
 			if ($diff<4)
 				return $diff . " week" . $this->_plural($diff) . $frame;
 
-			return "on " . $this->_ee->localize->decode_date($this->_format, $this->_date);
+			return $this->_prefix . $this->_ee->localize->decode_date($this->_format, $this->_date);
 		}
 
 		return $this->_ee->localize->decode_date($this->_format, $this->_date);
@@ -174,7 +176,8 @@ class Nice_time
 		date 	  is required. Can be a string date or a unix timestamp.
 		format 	  optional. (default: %d-%m-%Y %H:%i)
 		relative  optional. Set to "no" to always use format.
-		
+		prefix    optional. Default: 'on '.
+
 		For more information on the format parameter, see the EE documentation:
 			http://expressionengine.com/user_guide/templates/date_variable_formatting.html
 
