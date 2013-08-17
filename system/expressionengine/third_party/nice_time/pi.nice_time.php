@@ -102,7 +102,7 @@ class Nice_time
 
 	private function _run() {
 		if (! $this->_is_timestamp($this->_date))
-			$this->_date = strtotime($this->_date);
+			$this->_date = $this->_ee->localize->string_to_timestamp($this->_date);
 
 		$diff = time() - $this->_date;
 
