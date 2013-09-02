@@ -71,6 +71,8 @@
 		public function __construct()
 		{
 			$this->_ee = & get_instance();
+			
+			$this->_ee->lang->loadfile('nice_time');
 
 			$this->_date	 = $this->_ee->TMPL->fetch_param('date', time());
 			$this->_format	 = $this->_ee->TMPL->fetch_param('format', '%d-%m-%Y %H:%i');
@@ -105,6 +107,65 @@
 			}
 		}
 
+		private function _get_multilanguage_time_ago_string($time_type, $diff, $_is_plural, $frame)
+		{
+			switch ($time_type)
+			{
+				case 'second':
+					if ($is_plural === TRUE)
+					{
+						return sprintf(lang('time_ago_second'), $diff, lang($frame));
+					}
+					else
+					{
+						return sprintf(lang('time_ago_seconds'), $diff, lang($frame));
+					}
+					break;
+				case 'minute':
+					if ($is_plural === TRUE)
+					{
+						return sprintf(lang('time_ago_minute'), $diff, lang($frame));
+					}
+					else
+					{
+						return sprintf(lang('time_ago_minutes'), $diff, lang($frame));
+					}
+					break;
+				case 'hour':
+					if ($is_plural === TRUE)
+					{
+						return sprintf(lang('time_ago_hour'), $diff, lang($frame));
+					}
+					else
+					{
+						return sprintf(lang('time_ago_hours'), $diff, lang($frame));
+					}
+					break;
+				case 'day':
+					if ($is_plural === TRUE)
+					{
+						return sprintf(lang('time_ago_day'), $diff, lang($frame));
+					}
+					else
+					{
+						return sprintf(lang('time_ago_days'), $diff, lang($frame));
+					}
+					break;
+				case 'week':
+					if ($is_plural === TRUE)
+					{
+						return sprintf(lang('time_ago_week'), $diff, lang($frame));
+					}
+					else
+					{
+						return sprintf(lang('time_ago_weeks'), $diff, lang($frame));
+					}
+					break;
+				default:
+					return '';
+			}
+		}
+
 		private function _run()
 		{
 			if (!$this->_is_timestamp($this->_date))
@@ -118,43 +179,43 @@
 			{
 				if ($diff >= 0 && $diff < 5)
 				{
-					return "now";
+					return lang('time_ago_now');
 				}
 
-				$frame = ($diff < 0) ? ' from now' : ' ago';
+				$frame = ($diff < 0) ? 'frame_from now' : 'frame_ago';
 				$diff *= ($diff < 0) ? -1 : 1;
 
 				if ($diff < 60)
 				{
-					return $diff . " second" . $this->_plural($diff) . $frame;
+					return $this->_get_multilanguage_time_ago_string('second', $diff, $this->_is_plural($diff), $frame);
 				}
 
 				$diff = round($diff / 60);
 
 				if ($diff < 60)
 				{
-					return $diff . " minute" . $this->_plural($diff) . $frame;
+					return $this->_get_multilanguage_time_ago_string('minute', $diff, $this->_is_plural($diff), $frame);
 				}
 
 				$diff = round($diff / 60);
 
 				if ($diff < 24)
 				{
-					return $diff . " hour" . $this->_plural($diff) . $frame;
+					return $this->_get_multilanguage_time_ago_string('hour', $diff, $this->_is_plural($diff), $frame);
 				}
 
 				$diff = round($diff / 24);
 
 				if ($diff < 7)
 				{
-					return $diff . " day" . $this->_plural($diff) . $frame;
+					return $this->_get_multilanguage_time_ago_string('day', $diff, $this->_is_plural($diff), $frame);
 				}
 
 				$diff = round($diff / 7);
 
 				if ($diff < 4)
 				{
-					return $diff . " week" . $this->_plural($diff) . $frame;
+					return $this->_get_multilanguage_time_ago_string('week', $diff, $this->_is_plural($diff), $frame);
 				}
 
 				return $this->_prefix . $this->_ee->localize->decode_date($this->_format, $this->_date);

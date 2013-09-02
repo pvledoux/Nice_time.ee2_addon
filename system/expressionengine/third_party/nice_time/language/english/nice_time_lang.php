@@ -1,19 +1,18 @@
 <?php
 
-$lang = array(
-	'time_ago_now' => 'now',
-	'time_ago_from_now' => '%d from now',
-	'time_ago_ago' => '%d ago',
-	'time_ago_second' => '% second ago',
-	'time_ago_seconds' => '% seconds ago',
-	'time_ago_minute' => '% minute ago',
-	'time_ago_minutes' => '% minutes ago',
-	'time_ago_hour' => '% hour ago',
-	'time_ago_hours' => '% hours ago',
-	'time_ago_day' => '% day ago',
-	'time_ago_days' => '% days ago',
-	'time_ago_week' => '% week ago',
-	'time_ago_weeks' => '% weeks ago',
-	
-	'format_full_date' => '%d-%m-%Y %H:%i'
-);
+	$lang = array(
+		'time_ago_now'		 => 'now',
+		'time_ago_second'	 => '%s second %s',
+		'time_ago_seconds'	 => '%s seconds $%',
+		'time_ago_minute'	 => '%s minute %s',
+		'time_ago_minutes'	 => '%s minutes %s',
+		'time_ago_hour'		 => '%s hour %s',
+		'time_ago_hours'	 => '%s hours %s',
+		'time_ago_day'		 => '%s day %s',
+		'time_ago_days'		 => '%s days %s',
+		'time_ago_week'		 => '%s week %s',
+		'time_ago_weeks'	 => '%s weeks %s',
+		'frame_ago'		 => 'ago',
+		'frame_from_now' => 'from now',
+		'format_full_date' => '%d-%m-%Y %H:%i'
+	);
