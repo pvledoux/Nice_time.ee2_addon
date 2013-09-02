@@ -13,6 +13,7 @@
 	);
 
 	/**
+	 * Copyright (c) 2013, Pv Ledoux
 	 * Copyright (c) 2013, Arthur Vincent Simon
 	 * All rights reserved.
 	 *
@@ -71,7 +72,7 @@
 		public function __construct()
 		{
 			$this->_ee = & get_instance();
-			
+
 			$this->_ee->lang->loadfile('nice_time');
 
 			$this->_date	 = $this->_ee->TMPL->fetch_param('date', time());
@@ -267,4 +268,4 @@
 	}
 
 	/* End of file pi.nice_time.php */
-/* Location: ./system/expressionengine/third_party/nice_time/pi.nice_time.php */
+	/* Location: ./system/expressionengine/third_party/nice_time/pi.nice_time.php */
