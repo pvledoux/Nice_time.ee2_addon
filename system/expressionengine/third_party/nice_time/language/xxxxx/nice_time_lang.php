@@ -14,5 +14,5 @@
 		'time_ago_weeks'	 => '%s xxxxx %s',
 		'frame_ago'			 => 'xxxxx',
 		'frame_from_now'	 => 'xxxxx xxxxx',
-		'format_full_date'	 => '%d-%m-%Y %H:%i'
+		'format_full_date'	 => '%d %F %Y xx %g:%i %a'
 	);

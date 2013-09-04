@@ -12,7 +12,7 @@
 		'time_ago_days'		 => '%s days %s',
 		'time_ago_week'		 => '%s week %s',
 		'time_ago_weeks'	 => '%s weeks %s',
-		'frame_ago'		 => 'ago',
-		'frame_from_now' => 'from now',
-		'format_full_date' => '%d-%m-%Y %H:%i'
+		'frame_ago'			 => 'ago',
+		'frame_from_now'	 => 'from now',
+		'format_full_date'	 => '%d %F %Y at %g:%i %a'
 	);

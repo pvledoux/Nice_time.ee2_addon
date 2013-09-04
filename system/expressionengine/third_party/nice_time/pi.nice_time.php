@@ -57,7 +57,7 @@
 		 * @access	public
 		 * @var		array
 		 */
-		public $return_data	 = null;
+		public $return_data	 = NULL;
 		private $_ee		 = NULL;
 		private $_date		 = NULL;
 		private $_format	 = NULL;
@@ -74,13 +74,6 @@
 			$this->_ee = & get_instance();
 
 			$this->_ee->lang->loadfile('nice_time');
-
-			$this->_date	 = $this->_ee->TMPL->fetch_param('date', time());
-			$this->_format	 = $this->_ee->TMPL->fetch_param('format', '%d-%m-%Y %H:%i');
-			$this->_relative = $this->_ee->TMPL->fetch_param('relative', 'yes');
-			$this->_prefix	 = $this->_ee->TMPL->fetch_param('prefix', 'on ');
-
-			$this->return_data = $this->_run();
 		}
 
 		private function _is_timestamp($string)
@@ -100,15 +93,7 @@
 			}
 		}
 
-		private function _plural($num)
-		{
-			if ($num != 1)
-			{
-				return "s";
-			}
-		}
-
-		private function _get_multilanguage_time_ago_string($time_type, $diff, $_is_plural, $frame)
+		private function _get_multilanguage_time_ago_string($time_type, $diff, $is_plural, $frame)
 		{
 			switch ($time_type)
 			{
@@ -167,62 +152,107 @@
 			}
 		}
 
-		private function _run()
+		private function _get_converted_time_string($date)
 		{
-			if (!$this->_is_timestamp($this->_date))
+			if (!$this->_is_timestamp($date))
 			{
-				$this->_date = $this->_ee->localize->string_to_timestamp($this->_date);
+				$date = $this->_ee->localize->string_to_timestamp($date);
 			}
 
-			$diff = time() - $this->_date;
+			$diff = $this->_ee->localize->now - $date;
 
-			if ($this->_relative !== 'no')
+
+			if ($diff >= 0 && $diff < 5)
 			{
-				if ($diff >= 0 && $diff < 5)
-				{
-					return lang('time_ago_now');
-				}
-
-				$frame = ($diff < 0) ? 'frame_from now' : 'frame_ago';
-				$diff *= ($diff < 0) ? -1 : 1;
-
-				if ($diff < 60)
-				{
-					return $this->_get_multilanguage_time_ago_string('second', $diff, $this->_is_plural($diff), $frame);
-				}
-
-				$diff = round($diff / 60);
-
-				if ($diff < 60)
-				{
-					return $this->_get_multilanguage_time_ago_string('minute', $diff, $this->_is_plural($diff), $frame);
-				}
-
-				$diff = round($diff / 60);
-
-				if ($diff < 24)
-				{
-					return $this->_get_multilanguage_time_ago_string('hour', $diff, $this->_is_plural($diff), $frame);
-				}
-
-				$diff = round($diff / 24);
-
-				if ($diff < 7)
-				{
-					return $this->_get_multilanguage_time_ago_string('day', $diff, $this->_is_plural($diff), $frame);
-				}
-
-				$diff = round($diff / 7);
-
-				if ($diff < 4)
-				{
-					return $this->_get_multilanguage_time_ago_string('week', $diff, $this->_is_plural($diff), $frame);
-				}
-
-				return $this->_prefix . $this->_ee->localize->decode_date($this->_format, $this->_date);
+				return lang('time_ago_now');
 			}
 
-			return $this->_ee->localize->decode_date($this->_format, $this->_date);
+			$frame = ($diff < 0) ? 'frame_from now' : 'frame_ago';
+			$diff *= ($diff < 0) ? -1 : 1;
+
+			if ($diff < 60)
+			{
+				return $this->_get_multilanguage_time_ago_string('second', $diff, $this->_is_plural($diff), $frame);
+			}
+
+			$diff = round($diff / 60);
+
+			if ($diff < 60)
+			{
+				return $this->_get_multilanguage_time_ago_string('minute', $diff, $this->_is_plural($diff), $frame);
+			}
+
+			$diff = round($diff / 60);
+
+			if ($diff < 24)
+			{
+				return $this->_get_multilanguage_time_ago_string('hour', $diff, $this->_is_plural($diff), $frame);
+			}
+
+			$diff = round($diff / 24);
+
+			if ($diff < 7)
+			{
+				return $this->_get_multilanguage_time_ago_string('day', $diff, $this->_is_plural($diff), $frame);
+			}
+
+			$diff = round($diff / 7);
+
+			if ($diff < 4)
+			{
+				return $this->_get_multilanguage_time_ago_string('week', $diff, $this->_is_plural($diff), $frame);
+			}
+
+			// Default
+			return $this->_ee->localize->decode_date(lang('format_full_date'), $date);
+		}
+
+		public function convert()
+		{
+			$date = $this->_ee->TMPL->fetch_param('date', time());
+
+			return $this->_get_converted_time_string($date);
+		}
+
+		public function convert_multiple()
+		{
+			// TODO: Instead of using POST, get it from param.
+			$datetimes = $_POST['datetimes'];
+
+			$variables		 = array();
+			$variable_row	 = array(
+				'converted_date_list' => array()
+			);
+
+			// Fetch contents of the tag pair, ie, the form contents
+			$tagdata = $this->_ee->TMPL->tagdata;
+
+			if ($datetimes !== '')
+			{
+				$dates_list = explode('|', $datetimes);
+
+				$count			 = 1;
+				$total_results	 = count($dates_list);
+				foreach ($dates_list as $date_item)
+				{
+					$data = array(
+						'datetime'		 => $date_item,
+						'time_ago'		 => $this->_get_converted_time_string($date_item),
+						'count'			 => $count,
+						'total_results'	 => $total_results
+					);
+
+					$variable_row['converted_date_list'][] = $data;
+
+					$count++;
+				}
+				$variables[] = $variable_row;
+
+				// Parse Language variables
+				$tagdata = $this->_ee->TMPL->parse_variables($tagdata, $variables);
+			}
+
+			return $tagdata;
 		}
 
 		/**
@@ -230,34 +260,54 @@
 		 *
 		 * @return string
 		 */
-		function usage()
+		public function usage()
 		{
 			ob_start();
 			?>
 
+			# Nice Time Plugin
 
 			This plugin converts a date in relative time.
 			It will output **'now'** if the date given is less then 5 seconds ago, **'xx unit ago'** will be outputted for longer intervals (where unit will be seconds, minutes, hours, days or weeks).
-			If the date is greater than 4 weeks, it will return the full date formatted with the parameter _format_.
+			If the date is greater than 4 weeks, it will return the full date.
+
+			There are two ways to use this
+
+			## {exp:nice_time:convert}
+
+			Use this if you only plan to convert only one date
 
 			Syntax
 			------------------------------------------------------------------
 
-			{exp:nice_time date="{entry_date}" format="%d-%m-%Y %H:%i"}
-			{exp:nice_time date="2012-09-{segment_3}" format="%D, %M %j, %Y" relative="no"}
-			{exp:nice_time date="+3 days" format="<strong>%l</strong> %m/%d/%Y" relative="no"}
+			{exp:nice_time:convert date="{entry_date}"}
+			{exp:nice_time:convert date="2012-09-{segment_3}"}
+			{exp:nice_time:convert date="+3 days"}
 
 			Parameter
 			------------------------------------------------------------------
 
-			date 	  is required. Can be a string date or a unix timestamp.
-			format 	  optional. (default: %d-%m-%Y %H:%i)
-			relative  optional. Set to "no" to always use format.
-			prefix    optional. Default: 'on '.
+			date	Can be a string date or a unix timestamp.
 
-			For more information on the format parameter, see the EE documentation:
-			http://expressionengine.com/user_guide/templates/date_variable_formatting.html
+			## {exp:nice_time_convert_multiple}
 
+			Use this if you plan to convert more than one date.
+			This is not part of the core functionality. Rather, I created this to fit some of my needs(API related stuff)
+			I will be updating this in future so that it can accept params.
+
+			Syntax
+			------------------------------------------------------------------
+			{exp:nice_time:convert_multiple}
+			{converted_date_list}
+			{datetime}
+			{time_ago}
+			{/converted_date_list}
+			{/exp:nice_time:convert_multiple}
+
+			Parameter
+			------------------------------------------------------------------
+			None.	The actual list of dates is passed via POST in this format, "datetime1|datetime2|datetime3|..."
+			e.g. "2013-08-23T20:37:21+12:00|2013-08-22T19:08:29+12:00"			
 
 			<?php
 			$buffer = ob_get_contents();
