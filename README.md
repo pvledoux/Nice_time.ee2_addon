@@ -1,59 +1,56 @@
-#Pvl Nice_time v.0.2
+#Nice_time
 
-This plugin converts a date to relative time.
-It will output **'now'** if the date given is less then 5 seconds ago, **'xx unit ago'** will be output for longer intervals (where unit will be seconds, minutes, hours, days or weeks). If the date is greater than 4 weeks, it will return the full date formatted with the parameter _format_.
+A fork of [pvledoux Nice Time plugin](https://github.com/pvledoux/Nice_time.ee2_addon) with multilanguage features
 
-##Syntax
+There are two ways to use this
 
-    {exp:nice_time date="{entry_date}" format="%d-%m-%Y %H:%i"}
-    {exp:nice_time date="2012-09-{segment_3}" format="%D, %M %j, %Y" relative="no"}
-    {exp:nice_time date="+3 days" format="<strong>%l</strong> %m/%d/%Y" relative="no"}
+## {exp:nice_time:convert}
 
-It will output these kinds of results:
+Use this if you only plan to convert only one date
 
-    now
-    30 seconds ago
-    5 minutes ago
-    2 days ago
-    3 weeks ago
-    30 seconds from now
-    5 minutes from now
-    2 days from now
-    3 weeks from now
-    11-12-2012 11:24
-    Monday, September 6, 2012
+### Syntax
+------------------------------------------------------------------
 
-depending on the interval.
+{exp:nice_time:convert date="{entry_date}"}
+{exp:nice_time:convert date="2012-09-{segment_3}"}
+{exp:nice_time:convert date="+3 days"}
 
-##Parameter
+### Parameter
+------------------------------------------------------------------
 
-<table>
-<tr>
-	<td><b>date</b></td>
-	<td>is required. Can be a string date or a unix timestamp.</td>
-</tr>
-<tr>
-	<td><b>format</b></td>
-	<td>optional. See http://expressionengine.com/user_guide/templates/date_variable_formatting.html (default: %d-%m-%Y %H:%i)</td>
-</tr>
-<tr>
-	<td><b>relative</b></td>
-	<td>optional. Set to "no" to always use format.</td>
-</tr>
-</table>
+date	Can be a string date or a unix timestamp.
 
-##Future improvements
+## {exp:nice_time_convert_multiple}
 
-* Add parameters for the delay between the 'now', the 'xx unit ago' ouput and the normal date output
-* Allow the use of tag pairs or single tag (to ease translation)
-* Add parameter to set on which time the plugin must based the ouput (GMT, server time, etc)
+Use this if you plan to convert more than one date.
+This is not part of the core functionality. Rather, I created this to fit some of my needs(API related stuff)
+I will be updating this in future so that it can accept params.
 
-Any improvement or remarks are welcome.
+### Syntax
+------------------------------------------------------------------
+{exp:nice_time:convert_multiple}
+	{converted_date_list}
+		{datetime}
+		{time_ago}
+	{/converted_date_list}
+{/exp:nice_time:convert_multiple}
 
+### Parameter
+------------------------------------------------------------------
+None.	The actual list of dates is passed via POST in this format, "datetime1|datetime2|datetime3|..."
+		e.g. "2013-08-23T20:37:21+12:00|2013-08-22T19:08:29+12:00"	
 
+## Differences from the original project
+* Multilanguage Support
+* Removed format, relative and prefix parameters. This is because all of these are now defined in the language files. 
+
+## TODOs
+* Implement multilanguage support when outputting actual date as opposed to "time ago" phrases
+* In {exp:nice_time:convert_multiple}, make so that it accepts datetime param
 
 ##Licence
 Copyright (c) 2012, Pv Ledoux All rights reserved.
+Copyright (c) 2013, Arthur Vincent Simon All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
