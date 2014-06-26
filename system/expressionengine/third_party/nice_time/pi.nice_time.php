@@ -143,7 +143,7 @@ class Nice_time
 	}
 
 	private function _is_timestamp( $string ) {
-		return ( 1 === preg_match( '~^[1-9][0-9]*$~', $string ) );
+		return ( 1 === preg_match( '~^-?[1-9][0-9]*$~', $string ) );
 	}
 
 
