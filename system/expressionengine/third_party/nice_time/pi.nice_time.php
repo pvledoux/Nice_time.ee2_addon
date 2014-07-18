@@ -136,10 +136,10 @@ class Nice_time
 			if ($diff<4)
 				return $diff . " week" . $this->_plural($diff) . $frame;
 
-			return $this->_prefix . $this->_ee->localize->decode_date($this->_format, $this->_date);
+			return $this->_prefix . $this->_ee->localize->format_date($this->_format, $this->_date);
 		}
 
-		return $this->_ee->localize->decode_date($this->_format, $this->_date);
+		return $this->_ee->localize->format_date($this->_format, $this->_date);
 	}
 
 	private function _is_timestamp( $string ) {
