@@ -2,7 +2,7 @@
 
 $plugin_info = array(
 	'pi_name' => 'Nice Time',
-	'pi_version' => '0.2',
+	'pi_version' => '1.0.0',
 	'pi_author' =>'Pierre-Vincent Ledoux',
 	'pi_author_email' =>'ee-addons@pvledoux.be',
 	'pi_author_url' => 'http://twitter.com/pvledoux/',
@@ -41,10 +41,9 @@ $plugin_info = array(
 /**
  * Nice_time
  *
- * @copyright	Pv Ledoux 2013
+ * @copyright	Pv Ledoux 2014
  * @since		20 Dec 2011
  * @author		Pierre-Vincent Ledoux <ee-addons@pvledoux.be>
- * @author		EpicVoyage <nospam@epicvoyage.org>
  * @link		http://www.twitter.com/pvledoux/
  *
  */
