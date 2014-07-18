@@ -12,7 +12,7 @@ $plugin_info = array(
   );
 
 /**
- * Copyright (c) 2012, Pv Ledoux
+ * Copyright (c) 2013, Pv Ledoux
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ $plugin_info = array(
 /**
  * Nice_time
  *
- * @copyright	Pv Ledoux 2011
+ * @copyright	Pv Ledoux 2013
  * @since		20 Dec 2011
  * @author		Pierre-Vincent Ledoux <ee-addons@pvledoux.be>
  * @author		EpicVoyage <nospam@epicvoyage.org>
@@ -143,7 +143,7 @@ class Nice_time
 	}
 
 	private function _is_timestamp( $string ) {
-		return ( 1 === preg_match( '~^[1-9][0-9]*$~', $string ) );
+		return ( 1 === preg_match( '~^-?[1-9][0-9]*$~', $string ) );
 	}
 
 
