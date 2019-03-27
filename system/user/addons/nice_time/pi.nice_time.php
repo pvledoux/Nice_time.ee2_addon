@@ -2,7 +2,7 @@
 
 $plugin_info = array(
 	'pi_name' => 'Nice Time',
-	'pi_version' => '1.0.0',
+	'pi_version' => '1.1.0',
 	'pi_author' =>'Pierre-Vincent Ledoux',
 	'pi_author_email' =>'ee-addons@pvledoux.be',
 	'pi_author_url' => 'http://twitter.com/pvledoux/',
@@ -79,20 +79,6 @@ class Nice_time
 
 		$this->return_data = $this->_run();
 	}
-
-	/**
-	* Annoyingly, the supposedly PHP5-only EE2 still requires this PHP4
-	* constructor in order to function.
-	*
-	* @access public
-	* @return void
-	* method first seen used by Stephen Lewis (https://github.com/experience/you_are_here.ee2_addon)
-	*/
-	function Nice_time()
-	{
-		$this->__construct();
-	}
-
 
 	private function _plural($num) {
 		if ($num != 1)
