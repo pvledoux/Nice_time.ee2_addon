@@ -137,7 +137,7 @@ class Nice_time
 	 *
 	 * @return string
 	 */
-	function usage()
+	static function usage()
 	{
 			ob_start();
 
