@@ -57,7 +57,6 @@ class Nice_time
 	 */
 	public $return_data	= null;
 
-	private $_ee		= NULL;
 	private $_date		= NULL;
 	private $_format	= NULL;
 	private $_relative	= NULL;
@@ -70,12 +69,10 @@ class Nice_time
 	*/
 	public function __construct()
 	{
-		$this->_ee			=& get_instance();
-
-		$this->_date		= $this->_ee->TMPL->fetch_param('date', time());
-		$this->_format		= $this->_ee->TMPL->fetch_param('format', '%d-%m-%Y %H:%i');
-		$this->_relative	= $this->_ee->TMPL->fetch_param('relative', 'yes');
-		$this->_prefix		= $this->_ee->TMPL->fetch_param('prefix', 'on ');
+		$this->_date		= ee()->TMPL->fetch_param('date', time());
+		$this->_format		= ee()->TMPL->fetch_param('format', '%d-%m-%Y %H:%i');
+		$this->_relative	= ee()->TMPL->fetch_param('relative', 'yes');
+		$this->_prefix		= ee()->TMPL->fetch_param('prefix', 'on ');
 
 		$this->return_data = $this->_run();
 	}
@@ -121,10 +118,10 @@ class Nice_time
 			if ($diff<4)
 				return $diff . " week" . $this->_plural($diff) . $frame;
 
-			return $this->_prefix . $this->_ee->localize->format_date($this->_format, $this->_date);
+			return $this->_prefix . ee()->localize->format_date($this->_format, $this->_date);
 		}
 
-		return $this->_ee->localize->format_date($this->_format, $this->_date);
+		return ee()->localize->format_date($this->_format, $this->_date);
 	}
 
 	private function _is_timestamp( $string ) {
