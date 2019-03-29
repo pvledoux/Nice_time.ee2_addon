@@ -2,7 +2,7 @@
 
 $plugin_info = array(
 	'pi_name' => 'Nice Time',
-	'pi_version' => '1.0.0',
+	'pi_version' => '1.1.0',
 	'pi_author' =>'Pierre-Vincent Ledoux',
 	'pi_author_email' =>'ee-addons@pvledoux.be',
 	'pi_author_url' => 'http://twitter.com/pvledoux/',
@@ -57,7 +57,6 @@ class Nice_time
 	 */
 	public $return_data	= null;
 
-	private $_ee		= NULL;
 	private $_date		= NULL;
 	private $_format	= NULL;
 	private $_relative	= NULL;
@@ -70,29 +69,13 @@ class Nice_time
 	*/
 	public function __construct()
 	{
-		$this->_ee			=& get_instance();
-
-		$this->_date		= $this->_ee->TMPL->fetch_param('date', time());
-		$this->_format		= $this->_ee->TMPL->fetch_param('format', '%d-%m-%Y %H:%i');
-		$this->_relative	= $this->_ee->TMPL->fetch_param('relative', 'yes');
-		$this->_prefix		= $this->_ee->TMPL->fetch_param('prefix', 'on ');
+		$this->_date		= ee()->TMPL->fetch_param('date', time());
+		$this->_format		= ee()->TMPL->fetch_param('format', '%d-%m-%Y %H:%i');
+		$this->_relative	= ee()->TMPL->fetch_param('relative', 'yes');
+		$this->_prefix		= ee()->TMPL->fetch_param('prefix', 'on ');
 
 		$this->return_data = $this->_run();
 	}
-
-	/**
-	* Annoyingly, the supposedly PHP5-only EE2 still requires this PHP4
-	* constructor in order to function.
-	*
-	* @access public
-	* @return void
-	* method first seen used by Stephen Lewis (https://github.com/experience/you_are_here.ee2_addon)
-	*/
-	function Nice_time()
-	{
-		$this->__construct();
-	}
-
 
 	private function _plural($num) {
 		if ($num != 1)
@@ -135,10 +118,10 @@ class Nice_time
 			if ($diff<4)
 				return $diff . " week" . $this->_plural($diff) . $frame;
 
-			return $this->_prefix . $this->_ee->localize->format_date($this->_format, $this->_date);
+			return $this->_prefix . ee()->localize->format_date($this->_format, $this->_date);
 		}
 
-		return $this->_ee->localize->format_date($this->_format, $this->_date);
+		return ee()->localize->format_date($this->_format, $this->_date);
 	}
 
 	private function _is_timestamp( $string ) {
@@ -151,7 +134,7 @@ class Nice_time
 	 *
 	 * @return string
 	 */
-	function usage()
+	static function usage()
 	{
 			ob_start();
 
